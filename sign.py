@@ -2,7 +2,7 @@ import yaml
 import base64
 import hashlib
 import hmac
-import sys
+import sys, os
 
 def compute_signature(string_to_sign, secret):
     decoded_secret = base64.b64decode(secret)
@@ -23,12 +23,15 @@ def save_yaml_file(yaml_filename: str, data):
 
 
 if __name__ == "__main__":
+    sign_key = os.environ['SIGNKEY']
     yaml_obj = load_yaml_file(sys.argv[1])
-    del yaml_obj['signature']
+    if 'signature' not in yaml_obj:
+        print("The file must have a `signature` field at the root level")
+        sys.exit(1)
+    yaml_obj['signature'] = ''
     data = yaml.dump(yaml_obj)
-    secret = base64.b64encode(b"lqsmkdfj")
+    secret = base64.b64encode(sign_key.encode())
     computed_signature = compute_signature(data,secret=secret)
-    signature = {'signature': computed_signature}
-    res = {**signature, **yaml_obj}
-    save_yaml_file(sys.argv[2], res)
+    yaml_obj['signature'] = computed_signature
+    save_yaml_file(sys.argv[2], yaml_obj)
 

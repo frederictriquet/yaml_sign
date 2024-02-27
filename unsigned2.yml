@@ -1,0 +1,14 @@
+
+# exactly same content as unsigned.yml but with different order
+
+signature: 'the signature will be stored here'
+abcd:
+  - value: 1
+    other_value: "lksjdflmkj"
+  - value: 2
+    other_value: "AZERAZ"
+doc:
+  - value: 1
+    other_value: "lksjdflmkj"
+  - value: 2
+    other_value: "AZERAZ"

@@ -1,3 +1,4 @@
+signature: 'the signature will be stored here'
 doc:
   - value: 1
     other_value: "lksjdflmkj"
